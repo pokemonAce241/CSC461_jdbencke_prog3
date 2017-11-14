@@ -94,7 +94,7 @@ function loadTexture(gl, url){
  
    const image = new Image();
    image.onload = function() {
-    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.bindTexture(gl.TEXTURE_2D, currentTexture);
     gl.texImage2D(gl.TEXTURE_2D, level, internalFormat,
                   srcFormat, srcType, image);
 
