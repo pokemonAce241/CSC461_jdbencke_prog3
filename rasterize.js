@@ -111,7 +111,7 @@ function loadTexture(gl, url){
        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     }
   };
-    image.crossOrigin = "anonymous";
+    image.crossOrigin = "";
     image.src = url;
     
     return texture;
@@ -736,7 +736,7 @@ function renderModels() {
         
         // make model transform, add to view project
         makeModelTransform(currSet);
-        var url = "https://ncsucgclass.github.io/prog3/";
+        var url = "https://github.com/NCSUCGClass/prog3/blob/gh-pages/";
         const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
         
         mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // project * view * model
@@ -777,7 +777,7 @@ function renderModels() {
         // define model transform, premult with pvmMatrix, feed to vertex shader
         makeModelTransform(ellipsoid);
         
-        var url = "https://ncsucgclass.github.io/prog3/";
+        var url = "https://github.com/NCSUCGClass/prog3/blob/gh-pages/";
         const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
         
         pvmMatrix = mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // premultiply with pv matrix
