@@ -78,7 +78,7 @@ function getJSONFile(url,descr) {
 
 function loadTexture(gl, url){
    const currentTexture = gl.createTexture();
-   gl.bindTexture(gl.TEXTURE_2D, texture);
+   gl.bindTexture(gl.TEXTURE_2D, currentTexture);
     
   const level = 0;
   const internalFormat = gl.RGBA;
