@@ -736,10 +736,13 @@ function renderModels() {
         
         // make model transform, add to view project
         makeModelTransform(currSet);
-        var url = "https://ncsucgclass.github.io/prog3/";
-        const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
         
-        console.log(currentTexture);
+        var url = "https://ncsucgclass.github.io/prog3/";
+        url = url.concat(currSet.material.texture);
+        console.log(url);
+        const currentTexture = loadTexture(gl,url);
+        
+        
         
         mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // project * view * model
         gl.uniformMatrix4fv(mMatrixULoc, false, mMatrix); // pass in the m matrix
@@ -780,9 +783,11 @@ function renderModels() {
         makeModelTransform(ellipsoid);
         
         var url = "https://ncsucgclass.github.io/prog3/";
-        const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
+        url = url.concat(currSet.material.texture);
+        console.log(url);
+        const currentTexture = loadTexture(gl,url);
         
-        console.log(currentTexture);
+        
         
         pvmMatrix = mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // premultiply with pv matrix
         gl.uniformMatrix4fv(mMatrixULoc, false, mMatrix); // pass in model matrix
