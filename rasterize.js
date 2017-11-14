@@ -74,7 +74,7 @@ function getJSONFile(url,descr) {
 
 //creates a texture and loads an image.
 
-function loadTexture(gl, ulr){
+function loadTexture(gl, url){
     const texture = gl.createTexture();
    gl.bindTexture(gl.TEXTURE_2D, texture);
     
@@ -645,7 +645,7 @@ function setupShaders() {
                 vNormAttribLoc = gl.getAttribLocation(shaderProgram, "aVertexNormal"); // ptr to vertex normal attrib
                 gl.enableVertexAttribArray(vNormAttribLoc); // connect attrib to array
                 textureULoc = gl.getAttribLocation(shaderProgram,"aTextureCoord");
-                gl.getAttribLocation(textureULoc);
+                gl.enableVertexAttribArray(textureULoc);
                 
                 // locate vertex uniforms
                 mMatrixULoc = gl.getUniformLocation(shaderProgram, "umMatrix"); // ptr to mmat
