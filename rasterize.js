@@ -19,6 +19,7 @@ var inputTriangles = []; // the triangle data as loaded from input files
 var numTriangleSets = 0; // how many triangle sets in input scene
 var inputEllipsoids = []; // the ellipsoid data as loaded from input files
 var numEllipsoids = 0; // how many ellipsoids in the input scene
+var textures = [];
 
 var vertexBuffers = []; // this contains vertex coordinate lists by set, in triples
 var normalBuffers = []; // this contains normal component lists by set, in triples
@@ -76,7 +77,7 @@ function getJSONFile(url,descr) {
 //creates a texture and loads an image.
 
 function loadTexture(gl, url){
-    const texture = gl.createTexture();
+   const currentTexture = gl.createTexture();
    gl.bindTexture(gl.TEXTURE_2D, texture);
     
   const level = 0;
@@ -114,7 +115,7 @@ function loadTexture(gl, url){
     image.crossOrigin = "anonymous";
     image.src = url;
     
-    return texture;
+    textures.push(currentTexture);
     
 }
 
@@ -764,7 +765,7 @@ function renderModels() {
         gl.vertexAttribPointer(textureULoc,2,gl.FLOAT,false,0,0);
         
         gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, currentTexture);
+        gl.bindTexture(gl.TEXTURE_2D, textures[whichTriSet]);
         gl.uniform1i(uSampleLoc,0);
 
         // triangle buffer: activate and render
@@ -810,7 +811,7 @@ function renderModels() {
         
         
         gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, currentTexture);
+        gl.bindTexture(gl.TEXTURE_2D, textures[numTriangleSets+whichEllipsoid]);
         gl.uniform1i(uSampleLoc,0);
         
         // draw a transformed instance of the ellipsoid
