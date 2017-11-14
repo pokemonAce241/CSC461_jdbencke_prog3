@@ -117,7 +117,7 @@ function loadTexture(gl, ulr){
 }
 
 function isPowerOf2(value){
- retuern (value & (value - 1)) == 0;   
+ return (value & (value - 1)) == 0;   
 }
 
 // does stuff when keys are pressed
@@ -735,7 +735,7 @@ function renderModels() {
         // make model transform, add to view project
         makeModelTransform(currSet);
         var url = "https://github.com/NCSUCGClass/prog3/blob/gh-pages/";
-        const texture = loadTexture(gl,url.concat(currSet.material.texture));
+        const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
         
         mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // project * view * model
         gl.uniformMatrix4fv(mMatrixULoc, false, mMatrix); // pass in the m matrix
@@ -757,7 +757,7 @@ function renderModels() {
         gl.vertexAttribPointer(textureULoc,2,gl.FLOAT,false,0,0);
         
         gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.bindTexture(gl.TEXTURE_2D, currentTexture);
         gl.uniform1i(uSampleLoc,0);
 
         // triangle buffer: activate and render
@@ -776,7 +776,7 @@ function renderModels() {
         makeModelTransform(ellipsoid);
         
         var url = "https://github.com/NCSUCGClass/prog3/blob/gh-pages/";
-        const texture = loadTexture(gl,url.concat(currSet.material.texture));
+        const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
         
         pvmMatrix = mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // premultiply with pv matrix
         gl.uniformMatrix4fv(mMatrixULoc, false, mMatrix); // pass in model matrix
@@ -799,7 +799,7 @@ function renderModels() {
         
         
         gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.bindTexture(gl.TEXTURE_2D, currentTexture);
         gl.uniform1i(uSampleLoc,0);
         
         // draw a transformed instance of the ellipsoid
