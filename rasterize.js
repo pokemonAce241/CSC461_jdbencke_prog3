@@ -739,6 +739,8 @@ function renderModels() {
         var url = "https://ncsucgclass.github.io/prog3/";
         const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
         
+        console.log(currentTexture);
+        
         mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // project * view * model
         gl.uniformMatrix4fv(mMatrixULoc, false, mMatrix); // pass in the m matrix
         gl.uniformMatrix4fv(pvmMatrixULoc, false, pvmMatrix); // pass in the hpvm matrix
@@ -779,6 +781,8 @@ function renderModels() {
         
         var url = "https://ncsucgclass.github.io/prog3/";
         const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
+        
+        console.log(currentTexture);
         
         pvmMatrix = mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // premultiply with pv matrix
         gl.uniformMatrix4fv(mMatrixULoc, false, mMatrix); // pass in model matrix
