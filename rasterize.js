@@ -736,7 +736,7 @@ function renderModels() {
         
         // make model transform, add to view project
         makeModelTransform(currSet);
-        var url = "https://github.com/NCSUCGClass/prog3/blob/gh-pages/";
+        var url = "https://ncsucgclass.github.io/prog3/";
         const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
         
         mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // project * view * model
@@ -777,7 +777,7 @@ function renderModels() {
         // define model transform, premult with pvmMatrix, feed to vertex shader
         makeModelTransform(ellipsoid);
         
-        var url = "https://github.com/NCSUCGClass/prog3/blob/gh-pages/";
+        var url = "https://ncsucgclass.github.io/prog3/";
         const currentTexture = loadTexture(gl,url.concat(currSet.material.texture));
         
         pvmMatrix = mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // premultiply with pv matrix
