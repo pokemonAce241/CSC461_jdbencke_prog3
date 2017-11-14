@@ -24,7 +24,7 @@ var vertexBuffers = []; // this contains vertex coordinate lists by set, in trip
 var normalBuffers = []; // this contains normal component lists by set, in triples
 var triSetSizes = []; // this contains the size of each triangle set
 var triangleBuffers = []; // lists of indices into vertexBuffers by set, in triples
-var textureBuffers[];// this contains uv coordiate lists by set
+var textureBuffers = [];// this contains uv coordiate lists by set
 
 /* shader parameter locations */
 var vPosAttribLoc; // where to put position for vertex shader
