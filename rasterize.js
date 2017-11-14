@@ -35,6 +35,7 @@ var diffuseULoc; // where to put diffuse reflecivity for fragment shader
 var specularULoc; // where to put specular reflecivity for fragment shader
 var shininessULoc; // where to put specular exponent for fragment shader
 var textureULoc;//where to put texture uv values for fragment shader
+var uSampleLoc;
 
 /* interaction variables */
 var Eye = vec3.clone(defaultEye); // eye position in world space
@@ -650,7 +651,7 @@ function setupShaders() {
                 // locate vertex uniforms
                 mMatrixULoc = gl.getUniformLocation(shaderProgram, "umMatrix"); // ptr to mmat
                 pvmMatrixULoc = gl.getUniformLocation(shaderProgram, "upvmMatrix"); // ptr to pvmmat
-                var uSampleLoc = gl.getUniformLocation(shaderProgram, "uSample");
+                uSampleLoc = gl.getUniformLocation(shaderProgram, "uSample");
                 
                 // locate fragment uniforms
                 var eyePositionULoc = gl.getUniformLocation(shaderProgram, "uEyePosition"); // ptr to eye position
