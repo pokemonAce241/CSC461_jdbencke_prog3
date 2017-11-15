@@ -11,7 +11,6 @@ var lightDiffuse = vec3.fromValues(1,1,1); // default light diffuse emission
 var lightSpecular = vec3.fromValues(1,1,1); // default light specular emission
 var lightPosition = vec3.fromValues(2,4,-0.5); // default light position
 var rotateTheta = Math.PI/50; // how much to rotate models by with each key press
-var lightingON = 0;
 
 
 /* webgl and geometry data */
@@ -187,13 +186,6 @@ function handleKeyDown(event) {
         case "ArrowDown": // select previous ellipsoid
             highlightModel(modelEnum.ELLIPSOID,(handleKeyDown.whichOn > 0) ? handleKeyDown.whichOn-1 : numEllipsoids-1);
             break;
-            
-        case "KeyB"://change lighting mode
-            if(lightingON == 0)
-                lightingON = 1;
-            else
-                lightinON = 0;
-            
             
         // view change
         case "KeyA": // translate view left, rotate left with shift
@@ -628,10 +620,7 @@ function setupShaders() {
             
             // combine to output color
             vec3 colorOut = ambient + diffuse + specular; // no specular yet
-            if(lightingON == 1)
-                gl_FragColor = texture2D(uSample, vTextureCoord)*vec4(colorOut, 1.0);
-            else
-                gl_FragColor = texture2d(uSample, vTextureCoord);
+            gl_FragColor = texture2D(uSample, vTextureCoord)*vec4(colorOut, 1.0); 
         }
     `;
     
