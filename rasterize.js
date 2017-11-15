@@ -11,7 +11,6 @@ var lightDiffuse = vec3.fromValues(1,1,1); // default light diffuse emission
 var lightSpecular = vec3.fromValues(1,1,1); // default light specular emission
 var lightPosition = vec3.fromValues(2,4,-0.5); // default light position
 var rotateTheta = Math.PI/50; // how much to rotate models by with each key press
-var lightingOn = 0;
 
 
 /* webgl and geometry data */
@@ -194,14 +193,6 @@ function handleKeyDown(event) {
             if (!event.getModifierState("Shift"))
                 Eye = vec3.add(Eye,Eye,vec3.scale(temp,viewRight,viewDelta));
             break;
-            
-        case "KeyB": //switch between lighting methods
-            if(lightingOn == 0)
-                lightingOn = 1;
-            else
-                lightingOn = 0;
-            break;
-            
         case "KeyD": // translate view right, rotate right with shift
             Center = vec3.add(Center,Center,vec3.scale(temp,viewRight,-viewDelta));
             if (!event.getModifierState("Shift"))
@@ -629,10 +620,7 @@ function setupShaders() {
             
             // combine to output color
             vec3 colorOut = ambient + diffuse + specular; // no specular yet
-            if(lightingOn == 1)
-                gl_FragColor = texture2D(uSample, vTextureCoord)*vec4(colorOut, 1.0); 
-            else
-                gl_FragColor = texture2D(uSample, vTextureCoord);
+            gl_FragColor = texture2D(uSample, vTextureCoord)*vec4(colorOut, 1.0); 
         }
     `;
     
