@@ -353,7 +353,7 @@ function loadModels() {
                     latY = Math.sin(latAngle); // height at current latitude
                     for (var longAngle=0; longAngle<2*Math.PI; longAngle+=angleIncr){ // for each long
                         ellipsoidVertices.push(latRadius*Math.sin(longAngle),latY,latRadius*Math.cos(longAngle));
-                        ellipsoidTextures.push(1-(longAngle/(2*Math.PI)),1-(latAngle/latLimitAngle));   
+                           
                     }
                 } // end for each latitude
                 ellipsoidVertices.push(0,1,0); // add north pole
@@ -380,7 +380,14 @@ function loadModels() {
                         case 2: // z
                             return(2/(currEllipsoid.c*currEllipsoid.c) * (val-currEllipsoid.z));
                     } // end switch
-                }); 
+                });
+                
+                for(var latNumber = 0; latNumber <= numLongSteps; latNumber++){
+                    for(var longNumber = 0; longNumber <= numLongSteps; longNumber++){
+                        ellipsoidTextures.push(1-(longNumber/numLongSteps),1-(latNumber/numLongSteps));
+                        
+                    }
+                }
                 
                 // make triangles, from south pole to middle latitudes to north pole
                 var ellipsoidTriangles = []; // triangles to return
