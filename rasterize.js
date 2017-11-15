@@ -79,6 +79,7 @@ function getJSONFile(url,descr) {
 function loadTexture(gl, url){
    const currentTexture = gl.createTexture();
    gl.bindTexture(gl.TEXTURE_2D, currentTexture);
+   gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
     
   const level = 0;
   const internalFormat = gl.RGBA;
@@ -740,7 +741,7 @@ function renderModels() {
         
         var url = "https://ncsucgclass.github.io/prog3/";
         url = url.concat(currSet.material.texture);
-        console.log(url);
+        
         const currentTexture = loadTexture(gl,url);
         
         
@@ -785,7 +786,7 @@ function renderModels() {
         
         var url = "https://ncsucgclass.github.io/prog3/";
         url = url.concat(currSet.material.texture);
-        console.log(url);
+        
         const currentTexture = loadTexture(gl,url);
         
         
