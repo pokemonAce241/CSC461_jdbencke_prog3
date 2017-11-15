@@ -785,7 +785,7 @@ function renderModels() {
         makeModelTransform(ellipsoid);
         
         var url = "https://ncsucgclass.github.io/prog3/";
-        url = url.concat(currSet.material.texture);
+        url = url.concat(ellipsoid.texture);
         
         const currentTexture = loadTexture(gl,url);
         
