@@ -343,20 +343,33 @@ function loadModels() {
                 console.log("ellipsoid xyz: "+ ellipsoid.x +" "+ ellipsoid.y +" "+ ellipsoid.z);
                 
                 // make vertices
-                var ellipsoidVertices = [0,-1,0]; // vertices to return, init to south pole
+                var ellipsoidVertices = []; // vertices to return, init to south pole
                 var ellipsoidTextures = [];// uvs to return
-                var angleIncr = (Math.PI+Math.PI) / numLongSteps; // angular increment 
-                var latLimitAngle = angleIncr * (Math.floor(numLongSteps/4)-1); // start/end lat angle
-                var latRadius, latY; // radius and Y at current latitude
-                for (var latAngle=-latLimitAngle; latAngle<=latLimitAngle; latAngle+=angleIncr) {
-                    latRadius = Math.cos(latAngle); // radius of current latitude
-                    latY = Math.sin(latAngle); // height at current latitude
-                    for (var longAngle=0; longAngle<2*Math.PI; longAngle+=angleIncr){ // for each long
-                        ellipsoidVertices.push(latRadius*Math.sin(longAngle),latY,latRadius*Math.cos(longAngle));
-                           
-                    }
-                } // end for each latitude
-                ellipsoidVertices.push(0,1,0); // add north pole
+                
+                for (var latNumber = 0; latNumber <= numLongSteps; latNumber++) {
+      var theta = latNumber * Math.PI / numLongSteps;
+      var sinTheta = Math.sin(theta);
+      var cosTheta = Math.cos(theta);
+
+      for (var longNumber = 0; longNumber <= numLongSteps; longNumber++) {
+        var phi = longNumber * 2 * Math.PI / numLongSteps;
+        var sinPhi = Math.sin(phi);
+        var cosPhi = Math.cos(phi);
+
+        var x = cosPhi * sinTheta;
+        var y = cosTheta;
+        var z = sinPhi * sinTheta;
+        var u = 1 - (longNumber / numLongSteps);
+        var v = 1 - (latNumber / numLongSteps);
+
+        ellipsoidVertices.push(x);
+        ellipsoidVertices.push(y);
+        ellipsoidVertices.push(z);
+        ellipsoidTextures.push(u);
+        ellipsoidTextures.push(v);
+        
+      }
+    }          
                 ellipsoidVertices = ellipsoidVertices.map(function(val,idx) { // position and scale ellipsoid
                     switch (idx % 3) {
                         case 0: // x
@@ -381,33 +394,24 @@ function loadModels() {
                             return(2/(currEllipsoid.c*currEllipsoid.c) * (val-currEllipsoid.z));
                     } // end switch
                 });
-                
-                for(var latNumber = 0; latNumber <= numLongSteps; latNumber++){
-                    for(var longNumber = 0; longNumber <= numLongSteps; longNumber++){
-                        ellipsoidTextures.push(1-(longNumber/numLongSteps),1-(latNumber/numLongSteps));
-                        
-                    }
-                }
-                
+              
                 // make triangles, from south pole to middle latitudes to north pole
                 var ellipsoidTriangles = []; // triangles to return
-                for (var whichLong=1; whichLong<numLongSteps; whichLong++) // south pole
-                    ellipsoidTriangles.push(0,whichLong,whichLong+1);
-                ellipsoidTriangles.push(0,numLongSteps,1); // longitude wrap tri
-                var llVertex; // lower left vertex in the current quad
-                for (var whichLat=0; whichLat<(numLongSteps/2 - 2); whichLat++) { // middle lats
-                    for (var whichLong=0; whichLong<numLongSteps-1; whichLong++) {
-                        llVertex = whichLat*numLongSteps + whichLong + 1;
-                        ellipsoidTriangles.push(llVertex,llVertex+numLongSteps,llVertex+numLongSteps+1);
-                        ellipsoidTriangles.push(llVertex,llVertex+numLongSteps+1,llVertex+1);
-                    } // end for each longitude
-                    ellipsoidTriangles.push(llVertex+1,llVertex+numLongSteps+1,llVertex+2);
-                    ellipsoidTriangles.push(llVertex+1,llVertex+2,llVertex-numLongSteps+2);
-                } // end for each latitude
-                for (var whichLong=llVertex+2; whichLong<llVertex+numLongSteps+1; whichLong++) // north pole
-                    ellipsoidTriangles.push(whichLong,ellipsoidVertices.length/3-1,whichLong+1);
-                ellipsoidTriangles.push(ellipsoidVertices.length/3-2,ellipsoidVertices.length/3-1,
-                                        ellipsoidVertices.length/3-numLongSteps-1); // longitude wrap
+                
+                for (var latNumber = 0; latNumber < numLongSteps; latNumber++) {
+      for (var longNumber = 0; longNumber < numLongSteps; longNumber++) {
+        var first = (latNumber * (numLongSteps + 1)) + longNumber;
+        var second = first + numLongSteps + 1;
+        ellipsoidTriangles.push(first);
+        ellipsoidTriangles.push(second);
+        ellipsoidTriangles.push(first + 1);
+
+        ellipsoidTriangles.push(second);
+        ellipsoidTriangles.push(second + 1);
+        ellipsoidTriangles.push(first + 1);
+      }
+    }
+               
             } // end if good number longitude steps
             return({vertices:ellipsoidVertices, normals:ellipsoidNormals, triangles:ellipsoidTriangles, textures:ellipsoidTextures});
         } // end try
