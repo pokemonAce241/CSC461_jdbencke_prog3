@@ -11,6 +11,7 @@ var lightDiffuse = vec3.fromValues(1,1,1); // default light diffuse emission
 var lightSpecular = vec3.fromValues(1,1,1); // default light specular emission
 var lightPosition = vec3.fromValues(2,4,-0.5); // default light position
 var rotateTheta = Math.PI/50; // how much to rotate models by with each key press
+var lightingON = false;
 
 
 /* webgl and geometry data */
@@ -37,6 +38,7 @@ var specularULoc; // where to put specular reflecivity for fragment shader
 var shininessULoc; // where to put specular exponent for fragment shader
 var textureULoc;//where to put texture uv values for fragment shader
 var uSampleLoc;
+var lightingONLoc;
 
 /* interaction variables */
 var Eye = vec3.clone(defaultEye); // eye position in world space
@@ -185,6 +187,13 @@ function handleKeyDown(event) {
             break;
         case "ArrowDown": // select previous ellipsoid
             highlightModel(modelEnum.ELLIPSOID,(handleKeyDown.whichOn > 0) ? handleKeyDown.whichOn-1 : numEllipsoids-1);
+            break;
+            
+        case "KeyB"://turn on or off lighting
+            if(lightingON == false)
+                lightingON = true;
+            else
+                lightingON = false;
             break;
             
         // view change
@@ -599,6 +608,7 @@ function setupShaders() {
         uniform vec3 uSpecular; // the specular reflectivity
         uniform float uShininess; // the specular exponent
         uniform sampler2D uSample;
+        uniform bool uLightingON;
         
         // geometry properties
         varying vec3 vWorldPos; // world xyz of fragment
@@ -623,7 +633,10 @@ function setupShaders() {
             vec3 specular = uSpecular*uLightSpecular*highlight; // specular term
             
             // combine to output color
-            vec3 colorOut = ambient + diffuse + specular; // no specular yet
+            if(!uLightingON)
+                vec3 colorOut = vec3(1.0,1.0,1.0);
+            else
+                vec3 colorOut = ambient + diffuse + specular; // no specular yet
             gl_FragColor = texture2D(uSample, vTextureCoord)*vec4(colorOut, 1.0); 
         }
     `;
@@ -677,6 +690,7 @@ function setupShaders() {
                 diffuseULoc = gl.getUniformLocation(shaderProgram, "uDiffuse"); // ptr to diffuse
                 specularULoc = gl.getUniformLocation(shaderProgram, "uSpecular"); // ptr to specular
                 shininessULoc = gl.getUniformLocation(shaderProgram, "uShininess"); // ptr to shininess
+                lightingONLoc = gl.getUniformLocation(shaderProgram, "uLightingON");
                 
                 // pass global constants into fragment uniforms
                 gl.uniform3fv(eyePositionULoc,Eye); // pass in the eye's position
@@ -766,6 +780,7 @@ function renderModels() {
         gl.uniform3fv(diffuseULoc,currSet.material.diffuse); // pass in the diffuse reflectivity
         gl.uniform3fv(specularULoc,currSet.material.specular); // pass in the specular reflectivity
         gl.uniform1f(shininessULoc,currSet.material.n); // pass in the specular exponent
+        gl.uniform?f?(lightingONLoc,lightingON);
         
         
         // vertex buffer: activate and feed into vertex shader
