@@ -796,7 +796,7 @@ function renderModels() {
         
         const currentTexture = loadTexture(gl,url);
         
-        console.log(url);
+        
         
         pvmMatrix = mat4.multiply(pvmMatrix,pvMatrix,mMatrix); // premultiply with pv matrix
         gl.uniformMatrix4fv(mMatrixULoc, false, mMatrix); // pass in model matrix
