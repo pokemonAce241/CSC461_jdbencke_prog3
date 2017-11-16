@@ -790,10 +790,10 @@ function renderModels() {
         gl.vertexAttribPointer(vNormAttribLoc,3,gl.FLOAT,false,0,0); // feed
         gl.bindBuffer(gl.ARRAY_BUFFER,textureBuffers[whichTriSet]);
         gl.vertexAttribPointer(textureULoc,2,gl.FLOAT,false,0,0);
-        if(lightingON)
-           gl.glTexEnv(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+        if(lightingON == 1)
+           gl.glTexEnv(gl.GL_TEXTURE_ENV,gl.GL_TEXTURE_ENV_MODE,gl.GL_REPLACE);
            else
-               gl.glTexEnv(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
+               gl.glTexEnv(gl.GL_TEXTURE_ENV,gl.GL_TEXTURE_ENV_MODE,gl.GL_MODULATE);
         gl.activeTexture(gl.TEXTURE0);
         
         gl.bindTexture(gl.TEXTURE_2D, textures[whichTriSet]);
