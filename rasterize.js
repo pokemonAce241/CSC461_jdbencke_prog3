@@ -190,10 +190,12 @@ function handleKeyDown(event) {
             break;
             
         case "KeyB"://turn on or off lighting
+            console.log(lightingON);
             if(lightingON == false)
                 lightingON = true;
             else
                 lightingON = false;
+            console.log(lightingON);
             break;
             
         // view change
