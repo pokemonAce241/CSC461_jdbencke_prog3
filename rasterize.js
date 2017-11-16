@@ -11,7 +11,7 @@ var lightDiffuse = vec3.fromValues(1,1,1); // default light diffuse emission
 var lightSpecular = vec3.fromValues(1,1,1); // default light specular emission
 var lightPosition = vec3.fromValues(2,4,-0.5); // default light position
 var rotateTheta = Math.PI/50; // how much to rotate models by with each key press
-var lightingON = false;
+var lightingON = 0;
 
 
 /* webgl and geometry data */
@@ -191,10 +191,10 @@ function handleKeyDown(event) {
             
         case "KeyB"://turn on or off lighting
             console.log(lightingON);
-            if(lightingON == false)
-                lightingON = true;
+            if(lightingON == 0)
+                lightingON = 1;
             else
-                lightingON = false;
+                lightingON = 0;
             console.log(lightingON);
             break;
             
@@ -610,7 +610,7 @@ function setupShaders() {
         uniform vec3 uSpecular; // the specular reflectivity
         uniform float uShininess; // the specular exponent
         uniform sampler2D uSample;
-        uniform bool uLightingON;
+        
         
         // geometry properties
         varying vec3 vWorldPos; // world xyz of fragment
@@ -790,11 +790,16 @@ function renderModels() {
         gl.vertexAttribPointer(vNormAttribLoc,3,gl.FLOAT,false,0,0); // feed
         gl.bindBuffer(gl.ARRAY_BUFFER,textureBuffers[whichTriSet]);
         gl.vertexAttribPointer(textureULoc,2,gl.FLOAT,false,0,0);
-        
+        if(lightingON)
+           gl.glTexEnv(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_REPLACE);
+           else
+               gl.glTexEnv(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE,GL_MODULATE);
         gl.activeTexture(gl.TEXTURE0);
+        
         gl.bindTexture(gl.TEXTURE_2D, textures[whichTriSet]);
         gl.uniform1i(uSampleLoc,0);
-
+        
+           
         // triangle buffer: activate and render
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,triangleBuffers[whichTriSet]); // activate
         gl.drawElements(gl.TRIANGLES,3*triSetSizes[whichTriSet],gl.UNSIGNED_SHORT,0); // render
