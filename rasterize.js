@@ -852,7 +852,7 @@ function renderModels() {
         gl.bindBuffer(gl.ARRAY_BUFFER,textureBuffers[numTriangleSets+whichEllipsoid]);
         gl.vertexAttribPointer(textureULoc,2,gl.FLOAT,false,0,0);
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,triangleBuffers[numTriangleSets+whichEllipsoid]); // activate tri buffer
-        gl.vertexAttribPointer(lightingONAttribLoc,1,gl.FLOAT,false,0,0);
+       
         
         
         gl.activeTexture(gl.TEXTURE0);
