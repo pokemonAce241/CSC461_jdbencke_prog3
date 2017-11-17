@@ -643,6 +643,11 @@ function setupShaders() {
             
             // combine to output color
             
+
+
+
+
+
              
                 vec3 colorOut;
                 if(uLightingON){
