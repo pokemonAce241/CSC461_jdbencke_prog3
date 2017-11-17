@@ -709,7 +709,7 @@ function setupShaders() {
                 specularULoc = gl.getUniformLocation(shaderProgram, "uSpecular"); // ptr to specular
                 shininessULoc = gl.getUniformLocation(shaderProgram, "uShininess"); // ptr to shininess
                 uLightingONLoc = gl.getUniformLocation(shaderProgram, "uLightingON");
-                uAlphaLoc = gl.getuniformLocation(shaderProgram,"uAlpha");
+                uAlphaLoc = gl.getUniformLocation(shaderProgram,"uAlpha");
                 
                 // pass global constants into fragment uniforms
                 gl.uniform3fv(eyePositionULoc,Eye); // pass in the eye's position
