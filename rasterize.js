@@ -805,7 +805,7 @@ function renderModels() {
         gl.vertexAttribPointer(vNormAttribLoc,3,gl.FLOAT,false,0,0); // feed
         gl.bindBuffer(gl.ARRAY_BUFFER,textureBuffers[whichTriSet]);
         gl.vertexAttribPointer(textureULoc,2,gl.FLOAT,false,0,0);
-        gl.vertexAttribPointer(lightingONAttribLoc,1,gl.FLOAT,false,0,0);
+        
         
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, textures[whichTriSet]);
