@@ -1,4 +1,4 @@
-/* GLOBAL CONSTANTS AND VARIABLES */
+.0/* GLOBAL CONSTANTS AND VARIABLES */
 
 /* assignment specific globals */
 const INPUT_TRIANGLES_URL = "https://ncsucgclass.github.io/prog3/triangles.json"; // triangles file loc
@@ -11,7 +11,7 @@ var lightDiffuse = vec3.fromValues(1,1,1); // default light diffuse emission
 var lightSpecular = vec3.fromValues(1,1,1); // default light specular emission
 var lightPosition = vec3.fromValues(2,4,-0.5); // default light position
 var rotateTheta = Math.PI/50; // how much to rotate models by with each key press
-var lightingON = 0;
+var lightingON = 0.0;
 
 
 /* webgl and geometry data */
@@ -38,7 +38,7 @@ var specularULoc; // where to put specular reflecivity for fragment shader
 var shininessULoc; // where to put specular exponent for fragment shader
 var textureULoc;//where to put texture uv values for fragment shader
 var uSampleLoc;
-var lightingONLoc;
+
 
 /* interaction variables */
 var Eye = vec3.clone(defaultEye); // eye position in world space
@@ -191,10 +191,10 @@ function handleKeyDown(event) {
             
         case "KeyB"://turn on or off lighting
             console.log(lightingON);
-            if(lightingON == 0)
-                lightingON = 1;
+            if(lightingON == 0.0)
+                lightingON = 1.0;
             else
-                lightingON = 0;
+                lightingON = 0.0;
             console.log(lightingON);
             break;
             
@@ -690,7 +690,7 @@ function setupShaders() {
                 diffuseULoc = gl.getUniformLocation(shaderProgram, "uDiffuse"); // ptr to diffuse
                 specularULoc = gl.getUniformLocation(shaderProgram, "uSpecular"); // ptr to specular
                 shininessULoc = gl.getUniformLocation(shaderProgram, "uShininess"); // ptr to shininess
-                lightingONLoc = gl.getUniformLocation(shaderProgram, "uLightingON");
+                
                 
                 // pass global constants into fragment uniforms
                 gl.uniform3fv(eyePositionULoc,Eye); // pass in the eye's position
@@ -790,7 +790,7 @@ function renderModels() {
         gl.vertexAttribPointer(vNormAttribLoc,3,gl.FLOAT,false,0,0); // feed
         gl.bindBuffer(gl.ARRAY_BUFFER,textureBuffers[whichTriSet]);
         gl.vertexAttribPointer(textureULoc,2,gl.FLOAT,false,0,0);
-        if(lightingON == 1)
+        if(lightingON == 1.0)
            gl.glTexEnv(gl.GL_TEXTURE_ENV,gl.GL_TEXTURE_ENV_MODE,gl.GL_REPLACE);
            else
                gl.glTexEnv(gl.GL_TEXTURE_ENV,gl.GL_TEXTURE_ENV_MODE,gl.GL_MODULATE);
