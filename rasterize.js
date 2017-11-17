@@ -39,6 +39,7 @@ var shininessULoc; // where to put specular exponent for fragment shader
 var textureULoc;//where to put texture uv values for fragment shader
 var uSampleLoc;
 var uLightingONLoc;
+var uAlphaLoc;
 
 /* interaction variables */
 var Eye = vec3.clone(defaultEye); // eye position in world space
@@ -609,6 +610,8 @@ function setupShaders() {
         uniform vec3 uLightPosition; // the light's position
         
         uniform bool uLightingON;
+
+        //uniform float uAlpha;
         
         // material properties
         uniform vec3 uAmbient; // the ambient reflectivity
@@ -650,7 +653,8 @@ function setupShaders() {
             else{
                  colorOut = vec3(1.0,1.0,1.0);
             }
-            gl_FragColor = texture2D(uSample, vTextureCoord)*vec4(colorOut, 1.0); 
+            vec4 texCol = texture2D(uSample, vec2(vTextureCoord.s,vTextureCoord.t));
+            gl_FragColor = vec4(texCol.rgb,texCol.a)*vec4(colorOut, 1.0); 
         }
     `;
     
