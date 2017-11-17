@@ -643,18 +643,12 @@ function setupShaders() {
             
             // combine to output color
             
-
-
-
-
-
-             
                 vec3 colorOut;
                 if(uLightingON){
                  colorOut = ambient + diffuse + specular; // no specular yet
             }
             else{
-                 colorOut = new vec3(1.0,1.0,1.0);
+                 colorOut = vec3(1.0,1.0,1.0);
             }
             gl_FragColor = texture2D(uSample, vTextureCoord)*vec4(colorOut, 1.0); 
         }
