@@ -11,7 +11,7 @@ var lightDiffuse = vec3.fromValues(1,1,1); // default light diffuse emission
 var lightSpecular = vec3.fromValues(1,1,1); // default light specular emission
 var lightPosition = vec3.fromValues(2,4,-0.5); // default light position
 var rotateTheta = Math.PI/50; // how much to rotate models by with each key press
-var lightingON = 0.0;
+var lightingON = 0;
 
 
 /* webgl and geometry data */
@@ -191,10 +191,10 @@ function handleKeyDown(event) {
             
         case "KeyB"://turn on or off lighting
             
-            if(lightingON == 0.0)
-                lightingON = 1.0;
+            if(lightingON == 0)
+                lightingON = 1;
             else
-                lightingON = 0.0;
+                lightingON = 0;
             
             break;
             
@@ -607,7 +607,8 @@ function setupShaders() {
         uniform vec3 uLightDiffuse; // the light's diffuse color
         uniform vec3 uLightSpecular; // the light's specular color
         uniform vec3 uLightPosition; // the light's position
-        uniform float uLightingON;
+        
+        uniform bool uLightingON;
         
         // material properties
         uniform vec3 uAmbient; // the ambient reflectivity
@@ -642,12 +643,12 @@ function setupShaders() {
             
             // combine to output color
             
-
-                if(uLightingON > 0.5){
-                vec3 colorOut = ambient + diffuse + specular; // no specular yet
+                vec3 colorOut;
+                if(uLightingON){
+                 colorOut = ambient + diffuse + specular; // no specular yet
             }
             else{
-                vec3 colorOut = new vec3(1.0,1.0,1.0);
+                 colorOut = new vec3(1.0,1.0,1.0);
             }
             gl_FragColor = texture2D(uSample, vTextureCoord)*vec4(colorOut, 1.0); 
         }
@@ -794,7 +795,7 @@ function renderModels() {
         gl.uniform3fv(diffuseULoc,currSet.material.diffuse); // pass in the diffuse reflectivity
         gl.uniform3fv(specularULoc,currSet.material.specular); // pass in the specular reflectivity
         gl.uniform1f(shininessULoc,currSet.material.n); // pass in the specular exponent
-        gl.uniform1f(uLightingONLoc,lightingON);
+        gl.uniform1i(uLightingONLoc,lightingON);
         
         
         // vertex buffer: activate and feed into vertex shader
