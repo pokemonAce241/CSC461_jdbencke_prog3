@@ -780,7 +780,7 @@ function renderModels() {
         gl.uniform3fv(diffuseULoc,currSet.material.diffuse); // pass in the diffuse reflectivity
         gl.uniform3fv(specularULoc,currSet.material.specular); // pass in the specular reflectivity
         gl.uniform1f(shininessULoc,currSet.material.n); // pass in the specular exponent
-        gl.uniform1i(lightingONLoc,lightingON);
+       
         
         
         // vertex buffer: activate and feed into vertex shader
