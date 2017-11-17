@@ -820,11 +820,11 @@ function renderModels() {
         if(currSet.material.alpha < 1){
          gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
          gl.enable(gl.BLEND);
-         gl.depthMask(false));
+         gl.depthMask(false);
         }
         else{
          gl.disable(gl.BLEND);
-         gl.depthMask(true));
+         gl.depthMask(true);
         }
 
         // triangle buffer: activate and render
@@ -879,11 +879,11 @@ function renderModels() {
         if(ellipsoid.alpha < 1){
          gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
          gl.enable(gl.BLEND);
-         gl.depthMask(false));
+         gl.depthMask(false);
         }
         else{
          gl.disable(gl.BLEND);
-         gl.depthMask(true));
+         gl.depthMask(true);
         }
         
         // draw a transformed instance of the ellipsoid
