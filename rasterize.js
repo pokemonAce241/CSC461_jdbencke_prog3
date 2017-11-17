@@ -611,7 +611,7 @@ function setupShaders() {
         
         uniform bool uLightingON;
 
-        //uniform float uAlpha;
+        uniform float uAlpha;
         
         // material properties
         uniform vec3 uAmbient; // the ambient reflectivity
@@ -654,7 +654,7 @@ function setupShaders() {
                  colorOut = vec3(1.0,1.0,1.0);
             }
             vec4 texCol = texture2D(uSample, vec2(vTextureCoord.s,vTextureCoord.t));
-            gl_FragColor = vec4(texCol.rgb,texCol.a)*vec4(colorOut, 1.0); 
+            gl_FragColor = vec4(texCol.rgb,texCol.a*uAlpha)*vec4(colorOut, 1.0); 
         }
     `;
     
@@ -709,6 +709,7 @@ function setupShaders() {
                 specularULoc = gl.getUniformLocation(shaderProgram, "uSpecular"); // ptr to specular
                 shininessULoc = gl.getUniformLocation(shaderProgram, "uShininess"); // ptr to shininess
                 uLightingONLoc = gl.getUniformLocation(shaderProgram, "uLightingON");
+                uAlphaLoc = gl.getuniformLocation(shaderProgram,"uAlpha");
                 
                 // pass global constants into fragment uniforms
                 gl.uniform3fv(eyePositionULoc,Eye); // pass in the eye's position
@@ -800,6 +801,7 @@ function renderModels() {
         gl.uniform3fv(specularULoc,currSet.material.specular); // pass in the specular reflectivity
         gl.uniform1f(shininessULoc,currSet.material.n); // pass in the specular exponent
         gl.uniform1i(uLightingONLoc,lightingON);
+        gl.uniform1f(uAlphaLoc,currSet.material.alpha);
         
         
         // vertex buffer: activate and feed into vertex shader
@@ -814,6 +816,16 @@ function renderModels() {
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, textures[whichTriSet]);
         gl.uniform1i(uSampleLoc,0);
+        
+        if(currSet.material.alpha < 1){
+         gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+         gl.enable(gl.BLEND);
+         gl.depthMask(false));
+        }
+        else{
+         gl.disable(gl.BLEND);
+         gl.depthMask(true));
+        }
 
         // triangle buffer: activate and render
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,triangleBuffers[whichTriSet]); // activate
@@ -847,6 +859,7 @@ function renderModels() {
         gl.uniform3fv(specularULoc,ellipsoid.specular); // pass in the specular reflectivity
         gl.uniform1f(shininessULoc,ellipsoid.n); // pass in the specular exponent
         gl.uniform1f(uLightingONLoc,lightingON);
+        gl.uniform1f(uAlphaLoc,ellipsoid.alpha);
         
 
         gl.bindBuffer(gl.ARRAY_BUFFER,vertexBuffers[numTriangleSets+whichEllipsoid]); // activate vertex buffer
@@ -862,6 +875,16 @@ function renderModels() {
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, textures[numTriangleSets+whichEllipsoid]);
         gl.uniform1i(uSampleLoc,0);
+        
+        if(ellipsoid.alpha < 1){
+         gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+         gl.enable(gl.BLEND);
+         gl.depthMask(false));
+        }
+        else{
+         gl.disable(gl.BLEND);
+         gl.depthMask(true));
+        }
         
         // draw a transformed instance of the ellipsoid
         gl.drawElements(gl.TRIANGLES,triSetSizes[numTriangleSets+whichEllipsoid],gl.UNSIGNED_SHORT,0); // render
